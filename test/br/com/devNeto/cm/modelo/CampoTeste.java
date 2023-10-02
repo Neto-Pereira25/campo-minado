@@ -134,4 +134,11 @@ public class CampoTeste {
 		
 		assertTrue(campo22.isAberto() && campo11.isFechado());
 	}
+	
+	@Test
+	void testeReinicia() {
+		campo.reiniciar();
+		
+		assertFalse(campo.isAberto() && campo.isFechado() && campo.isMinado());
+	}
 }
