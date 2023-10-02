@@ -3,6 +3,8 @@ package br.com.devNeto.cm.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.devNeto.cm.excecao.ExplosaoException;
+
 public class Campo {
 	
 	private final int linha;
@@ -36,5 +38,34 @@ public class Campo {
 			return true;
 		}
 		return false;
+	}
+	
+	void alternarMarcacao() {
+		if(!aberto) {
+			marcado = !marcado;
+		}
+	}
+	
+	boolean abrir() {
+		
+		if (!aberto && !marcado) {
+			aberto = true;
+			
+			if (minado) {
+				throw new ExplosaoException();
+			}
+			
+			if (vizinhacaSegura()) {
+				vizinhos.forEach(v -> v.abrir());
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	boolean vizinhacaSegura() {
+		return vizinhos.stream().noneMatch(v -> v.minado);
 	}
 }
